@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-abstract class Movable extends LinearOpMode {
+public abstract class Movable extends LinearOpMode {
     static protected DcMotor FLW;
     static protected DcMotor BLW;
     static protected DcMotor FRW;
@@ -18,11 +18,11 @@ abstract class Movable extends LinearOpMode {
     static protected Servo rotatingServoL;
     static protected Servo outtake;
     static protected Servo intake;
-
-    static protected Delay outtakeDelay = new Delay();
-    static protected Delay inttakeDelay = new Delay();
-    static protected Delay rollingDelay = new Delay();
-    static protected Delay slideDelay = new Delay();
+    static protected final long DEFAULTTIME = 500;
+    static protected Delay outtakeDelay = new Delay(DEFAULTTIME);
+    static protected Delay inttakeDelay = new Delay(DEFAULTTIME);
+    static protected Delay rollingDelay = new Delay(DEFAULTTIME);
+    static protected Delay slideDelay = new Delay(DEFAULTTIME);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -216,5 +216,5 @@ abstract class Movable extends LinearOpMode {
         turnRobot(2920/2, direction);
     }
 
-    abstract void updatePhoneConsole();
+    protected abstract void updatePhoneConsole();
 }

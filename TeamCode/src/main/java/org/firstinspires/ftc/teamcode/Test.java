@@ -18,7 +18,7 @@ public class Test extends Movable {
     }
 
     @Override
-    void updatePhoneConsole() {
+    protected void updatePhoneConsole() {
 
     }
 }

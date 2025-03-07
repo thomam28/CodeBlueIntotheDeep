@@ -2,16 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 public class Delay {
     private long currentTime;
-    private final long delayDuration = 500;
+    // sets button delay duration (in milliseconds)
+    private long DELAYDURATION;
     public boolean open;
 
-    public Delay() {
+    public Delay(long delays) {
+        // sets currentTime to current time
         currentTime = System.currentTimeMillis();
         open = false;
+        DELAYDURATION = delays;
     }
 
     public boolean delay() {
-        if (System.currentTimeMillis() - currentTime >= delayDuration) {
+        // if last button press subtracted by last recorded time is less
+        // than the delay duration, return false
+        if (System.currentTimeMillis() - currentTime >= DELAYDURATION) {
             currentTime = System.currentTimeMillis();
             return true;
         } else {

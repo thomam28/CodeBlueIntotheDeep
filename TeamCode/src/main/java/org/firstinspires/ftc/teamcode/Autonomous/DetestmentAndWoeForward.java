@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Movable;
 
 @Autonomous
-public class DetestmentAndWoeRight extends Movable {
+public class DetestmentAndWoeForward extends Movable {
     static private DcMotor FLW;
     static private DcMotor BLW;
     static private DcMotor FRW;
@@ -15,11 +15,6 @@ public class DetestmentAndWoeRight extends Movable {
     @Override
     public void runOpMode() throws InterruptedException {
         super.runOpMode();
-        FLW = hardwareMap.get(DcMotor.class, "FLW");
-        BLW = hardwareMap.get(DcMotor.class, "BLW");
-        BRW = hardwareMap.get(DcMotor.class, "BRW");
-        FRW = hardwareMap.get(DcMotor.class, "FRW");
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -27,7 +22,7 @@ public class DetestmentAndWoeRight extends Movable {
 
         // run until the end of the match (driver presses STOP)
         // Example of controlling movements and then stopping after each step.
-        powerWheels(1500, "right");
+        powerWheels(600, "forward");
 
         // Stop motors after completing the parking routine
         disablePower();

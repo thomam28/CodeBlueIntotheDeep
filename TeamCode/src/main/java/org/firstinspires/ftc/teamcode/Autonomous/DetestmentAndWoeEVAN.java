@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Movable;
+
 @Autonomous
-public class DetestmentAndWoeEVAN extends Movable{
+public class DetestmentAndWoeEVAN extends Movable {
 
     public void runOpMode() throws InterruptedException {
         super.runOpMode();
@@ -32,7 +34,6 @@ public class DetestmentAndWoeEVAN extends Movable{
         telemetry.update();
 
     }
-        void updatePhoneConsole() {
-
-    }
+        public void updatePhoneConsole() {
+        }
 }

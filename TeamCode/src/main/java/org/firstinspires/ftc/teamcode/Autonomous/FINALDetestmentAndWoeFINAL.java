@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Movable;
 
 @TeleOp
 public class FINALDetestmentAndWoeFINAL extends Movable {
@@ -99,7 +100,7 @@ public class FINALDetestmentAndWoeFINAL extends Movable {
     }
 
     @Override
-    void updatePhoneConsole() {
+    public void updatePhoneConsole() {
 
     }
 }
