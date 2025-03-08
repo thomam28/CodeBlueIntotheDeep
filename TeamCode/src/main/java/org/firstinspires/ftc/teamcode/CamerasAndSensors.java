@@ -2,15 +2,23 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.dfrobot.HuskyLens.Block;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import java.util.ArrayList;
 
 @TeleOp
 public class CamerasAndSensors extends LinearOpMode {
 
     private HuskyLens huskyLens;
     private ColorSensor colorSensor;
+    private int redRGB[][] = {{134, 54, 84}, {150, 55, 90}, {195, 68, 111}, {171, 63, 102}, {163, 60, 96}};
+    private int blueRGB[][] = {{39, 199, 83}, {41, 237, 91}, {48, 263, 102}, {40, 217, 88}, {41, 221, 89}};
+    private int yellowRGB[][] = {{171, 72, 222}, {188, 74, 242}, {182, 75, 234}, {206, 79, 266}, {235, 86, 302}};
+    private int blankRGB[][] = new int[5][3];
+    private static int i;
 
     @Override
     public void runOpMode() {
@@ -24,9 +32,30 @@ public class CamerasAndSensors extends LinearOpMode {
 
         waitForStart();
 
+        // should use actual numbers from the arrays, but too lazy to program :P
         while (opModeIsActive()) {
-            cameraTest();
+            telemetry.addData("RGB", colorSensor.red() + ", " + colorSensor.green() + ", " + colorSensor.blue());
+            if (inRange(134, 195, colorSensor.red())
+            && inRange(54, 68, colorSensor.green())
+            && inRange(84, 111, colorSensor.blue())) {
+                telemetry.addData("Red", "detected!");
+            } else if (inRange(39, 48, colorSensor.red())
+                    && inRange(199, 263, colorSensor.green())
+                    && inRange(83, 102, colorSensor.blue())) {
+                telemetry.addData("Blue", "detected!");
+            } else if (inRange(171, 235, colorSensor.red())
+                    && inRange(72, 86, colorSensor.green())
+                    && inRange(222, 302, colorSensor.blue())) {
+                telemetry.addData("Yellow", "detected!");
+            } else {
+                telemetry.addData("No colors", "detected.");
+            }
+            telemetry.update();
         }
+    }
+
+    private boolean inRange(int min, int max, int num) {
+        return num <= max && num >= min;
     }
 
     private void cameraTest() {
@@ -65,27 +94,21 @@ public class CamerasAndSensors extends LinearOpMode {
         telemetry.update();
     }
 
-    private void colorSensorTest() {
-        telemetry.addData("RGB", colorSensor.red() + ", "
-                + colorSensor.green() + ", " + colorSensor.blue());
-        if (getRedRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-            telemetry.addData("Red", "detected!");
-        } else if (getBlueRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-            telemetry.addData("Blue", "detected!");
-        } else if (getYellowRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-            telemetry.addData("Yellow", "detected!");
+    private void trainColors() {
+        for (i = 0; i <= 4; i++) {
+            blankRGB[i] = new int[]{colorSensor.red(), colorSensor.blue(), colorSensor.green()};
+            sleep(2000);
         }
-
-        telemetry.update();
     }
 
-    private boolean getRedRange(int r, int g, int b) {
-        return r >= 200 && g <= 75 && b <= 75;
+    private void listColors() {
+        trainColors();
+        while (opModeIsActive()) {
+            for (int i = 0; i <= 4; i++) {
+                telemetry.addData("RGB", blankRGB[i][0] + ", " + blankRGB[i][1] + ", " + blankRGB[i][2]);
+            }
+            telemetry.update();
+        }
     }
-    private boolean getYellowRange(int r, int g, int b) {
-        return r >= 150 && g >= 150 && b <= 75;
-    }
-    private boolean getBlueRange(int r, int g, int b) {
-        return r <= 75 && g <= 75 && b >= 200;
-    }
+
 }
