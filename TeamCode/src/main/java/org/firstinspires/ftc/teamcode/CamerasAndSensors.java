@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.hardware.dfrobot.HuskyLens.Block;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -24,54 +25,58 @@ public class CamerasAndSensors extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("RGB", colorSensor.red() + ", "
-                    + colorSensor.green() + ", " + colorSensor.blue());
-            if (getRedRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-                telemetry.addData("Red", "detected!");
-            } else if (getBlueRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-                telemetry.addData("Blue", "detected!");
-            } else if (getYellowRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
-                telemetry.addData("Yellow", "detected!");
-            }
+            cameraTest();
+        }
+    }
 
-            telemetry.update();
+    private void cameraTest() {
+        Block[] blocks = huskyLens.blocks();
+
+        // Check if any colors are detected
+        if (blocks.length > 0) {
+            telemetry.addData("Detected Colors", blocks.length);
+
+            // Loop through each detected color block
+            for (Block block : blocks) {
+                    /*
+                     red ID = 1
+                     blue ID = 2
+                     yellow ID = 3
+                    */
+                int colorID = block.id;
+
+                switch (colorID) {
+                    case 1:
+                        telemetry.addData("Red Detected!", "");
+                        break;
+                    case 2:
+                        telemetry.addData("Blue Detected!", "");
+                        break;
+                    case 3:
+                        telemetry.addData("Yellow Detected!", "");
+                        break;
+                }
+                telemetry.addData("Color ID", colorID);
+            }
+        } else {
+            telemetry.addData("Status", "No Colors Detected");
         }
 
-//        while (opModeIsActive()) {
-//            Block[] blocks = huskyLens.blocks();
-//
-//            // Check if any colors are detected
-//            if (blocks.length > 0) {
-//                telemetry.addData("Detected Colors", blocks.length);
-//
-//                // Loop through each detected color block
-//                for (Block block : blocks) {
-//                    /*
-//                     red ID = 1
-//                     blue ID = 2
-//                     yellow ID = 3
-//                    */
-//                    int colorID = block.id;
-//
-//                    switch (colorID) {
-//                        case 1:
-//                            telemetry.addData("Red Detected!", "");
-//                            break;
-//                        case 2:
-//                            telemetry.addData("Blue Detected!", "");
-//                            break;
-//                        case 3:
-//                            telemetry.addData("Yellow Detected!", "");
-//                            break;
-//                    }
-//                    telemetry.addData("Color ID", colorID);
-//                }
-//            } else {
-//                telemetry.addData("Status", "No Colors Detected");
-//            }
-//
-//            telemetry.update();
-//        }
+        telemetry.update();
+    }
+
+    private void colorSensorTest() {
+        telemetry.addData("RGB", colorSensor.red() + ", "
+                + colorSensor.green() + ", " + colorSensor.blue());
+        if (getRedRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
+            telemetry.addData("Red", "detected!");
+        } else if (getBlueRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
+            telemetry.addData("Blue", "detected!");
+        } else if (getYellowRange(colorSensor.red(), colorSensor.blue(), colorSensor.green())) {
+            telemetry.addData("Yellow", "detected!");
+        }
+
+        telemetry.update();
     }
 
     private boolean getRedRange(int r, int g, int b) {
