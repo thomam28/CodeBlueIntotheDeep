@@ -24,7 +24,6 @@ public class CamerasAndSensors extends LinearOpMode {
     public void runOpMode() {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
         colorSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
-
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         telemetry.addData("Status", "Initialized");
@@ -34,23 +33,7 @@ public class CamerasAndSensors extends LinearOpMode {
 
         // should use actual numbers from the arrays, but too lazy to program :P
         while (opModeIsActive()) {
-            telemetry.addData("RGB", colorSensor.red() + ", " + colorSensor.green() + ", " + colorSensor.blue());
-            if (inRange(134, 195, colorSensor.red())
-            && inRange(54, 68, colorSensor.green())
-            && inRange(84, 111, colorSensor.blue())) {
-                telemetry.addData("Red", "detected!");
-            } else if (inRange(39, 48, colorSensor.red())
-                    && inRange(199, 263, colorSensor.green())
-                    && inRange(83, 102, colorSensor.blue())) {
-                telemetry.addData("Blue", "detected!");
-            } else if (inRange(171, 235, colorSensor.red())
-                    && inRange(72, 86, colorSensor.green())
-                    && inRange(222, 302, colorSensor.blue())) {
-                telemetry.addData("Yellow", "detected!");
-            } else {
-                telemetry.addData("No colors", "detected.");
-            }
-            telemetry.update();
+            colorDetection();
         }
     }
 
@@ -58,7 +41,34 @@ public class CamerasAndSensors extends LinearOpMode {
         return num <= max && num >= min;
     }
 
-    private void cameraTest() {
+    private void faceDetection() {
+        Block[] blocks = huskyLens.blocks();
+
+        // Check if any colors are detected
+        if (blocks.length > 0) {
+            telemetry.addData("Detected Faces", blocks.length);
+
+            // Loop through each detected color block
+            for (Block block : blocks) {
+                int faceID = block.id;
+                switch (faceID) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                telemetry.addData("Face ID", faceID);
+            }
+        } else {
+            telemetry.addData("Status", "No Faces Detected");
+        }
+
+        telemetry.update();
+    }
+
+    private void colorDetection() {
         Block[] blocks = huskyLens.blocks();
 
         // Check if any colors are detected
@@ -73,7 +83,6 @@ public class CamerasAndSensors extends LinearOpMode {
                      yellow ID = 3
                     */
                 int colorID = block.id;
-
                 switch (colorID) {
                     case 1:
                         telemetry.addData("Red Detected!", "");
